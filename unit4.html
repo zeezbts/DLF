@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -120,156 +120,98 @@
     </style>
 </head>
 <body>
+    <div class="container">
+  <h1>Combinational Circuits</h1>
+    <p>
+        Combinational circuits are fundamental digital circuits whose outputs depend only on the current combination of inputs, with no memory or past states involved. 
+    </p>
+    <p>
+        Built from interconnected logic gates, they provide an immediate response (minus propagation delays) and are stateless.
+    </p>
+    <img src="Combinational-Circuit_.webp" alt="" srcset="">
 
-<div class="container">
-    <h1>Detailed Guide on Parity Generators</h1>
-    
-    <p>A <strong>parity generator</strong> is a combinational logic circuit designed to add an extra bit—called a <strong>parity bit</strong>—to a binary data word before it is transmitted. Its primary purpose is to enable error detection at the destination.</p>
-    
-   
-    <h2> Even vs. Odd Parity</h2>
-    
+    <h1>Combinational Logic Circuits</h1>
+    <p>
+        Combinational logic circuits are digital circuits where the output at any given time depends entirely on the current input combination. They are constructed using logic gates such as AND, OR, NOT, NAND, NOR, XOR, and XNOR.
+    </p>
+    <p>
+        They haveno memory, meaning past inputs or states do not affect the current output.
+    </p>
+  <img src="combinational-ckt.webp" alt="" srcset="">
 
-    <h3>1. Even Parity Generator</h3>
-    <p>The goal is to make the total number of 1s in the complete message (data bits + parity bit) <span class="bold-text">even</span>.</p>
+    <h1>Arithmetic and Logic Circuits</h1>
+    <p>Arithmetic and Logic Circuits are the core combinational building blocks of an <strong>Arithmetic Logic Unit (ALU)</strong> in a computer processor. They perform all the binary mathematical calculations and data comparisons required by software.</p>
+
+    <h2>1. Adder Circuits</h2>
+    <p>Adders perform binary addition, which is the foundational operation for subtraction, multiplication, and division.</p>
+    
+    <div class="container">
+    <h1>The Half Adder</h1>
+    <p>A half adder is the simplest digital circuit for binary addition. Because it lacks an input for a previous carry, it is typically only used to add the very first two bits (the Least Significant Bits) of a larger binary number.</p>
+
+    <h2>Circuit Specifications</h2>
     <ul>
-        <li><strong>If the data has an even number of 1s:</strong> The data is already compliant. The generator outputs a <span class="bold-text">0</span>.</li>
-        <li><strong>If the data has an odd number of 1s:</strong> The generator outputs a <span class="bold-text">1</span> to make the overall count even.</li>
+        <li><span class="strong-term">Inputs:</span> 2 (e.g., A and B)</li>
+        <li><span class="strong-term">Outputs:</span> 2 (Sum and Carry)</li>
+        <li><span class="strong-term">Gates Used:</span> 1 XOR gate (for Sum) and 1 AND gate (for Carry)</li>
     </ul>
-    <h2>4-bit even parity generator</h2>
-<img src="4-bit-even-parity-generator.jpg" alt="">
-    <h3>2. Odd Parity Generator</h3>
-    <p>The goal is to make the total number of 1s in the complete message <span class="bold-text">odd</span>.</p>
-    <ul>
-        <li><strong>If the data has an even number of 1s:</strong> The generator outputs a <span class="bold-text">1</span> to make the overall count odd.</li>
-        <li><strong>If the data has an odd number of 1s:</strong> The data is already compliant. The generator outputs a <span class="bold-text">0</span>.</li>
-    </ul>
-    <h2> 4-bit odd parity generator </h2>
-    <img src="4-bit-odd-parity-generator.jpg" alt="">
+
+    <h2>Logic Equations</h2>
+    <div class="equation">
+        Sum = A &oplus; B <br>
+        Carry = A &middot; B
+    </div>
+    <img src="half adder.png" alt="Half Adder Circuit Diagram" srcset="">
 </div>
-<div class="container">
-    <table>
-    <thead>
-        <tr>
-            <th rowspan="2">Total 1s in Data<br>(4-Bit Input)</th>
-            <th colspan="2">Generated Parity Bit (P)</th>
-        </tr>
-        <tr>
-            <th>Even Parity</th>
-            <th>Odd Parity</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><strong>0</strong> (Even)</td>
-            <td class="even-bit">0</td>
-            <td class="odd-bit">1</td>
-        </tr>
-        <tr>
-            <td><strong>1</strong> (Odd)</td>
-            <td class="even-bit">1</td>
-            <td class="odd-bit">0</td>
-        </tr>
-        <tr>
-            <td><strong>2</strong> (Even)</td>
-            <td class="even-bit">0</td>
-            <td class="odd-bit">1</td>
-        </tr>
-        <tr>
-            <td><strong>3</strong> (Odd)</td>
-            <td class="even-bit">1</td>
-            <td class="odd-bit">0</td>
-        </tr>
-        <tr>
-            <td><strong>4</strong> (Even)</td>
-            <td class="even-bit">0</td>
-            <td class="odd-bit">1</td>
-        </tr>
-    </tbody>
-</table>
+
+     <h1>The Full Adder</h1>
+    <p>A full adder is designed to process three inputs at once: two regular bits and an incoming carry bit (C<sub>in</sub>) from a previous addition. This allows multiple full adders to be chained (cascaded) together to add large, multi-bit binary numbers.</p>
+
+    <h2>Circuit Specifications</h2>
+    <ul>
+        <li><span class="strong-term">Inputs:</span> 3 (A, B, and C<sub>in</sub>)</li>
+        <li><span class="strong-term">Outputs:</span> 2 (Sum and Carry<sub>out</sub>)</li>
+        <li><span class="strong-term">Gates Used:</span> 2 XOR gates, 2 AND gates, and 1 OR gate</li>
+    </ul>
+
+    <h2>Logic Equations</h2>
+    <div class="equation">
+        Sum = A &oplus; B &oplus; C<sub>in</sub> <br>
+        Carry<sub>out</sub> = (A &middot; B) + (C<sub>in} &middot; (A &oplus; B))
+    </div>
+    <img src="fulladder.jpg" alt="Full Adder Circuit Diagram" srcset="">
 </div>
-<div class="container">
-    <h1>Detailed Guide on Parity Checkers</h1>
+    <h2>2. Subtractor Circuits</h2>
+    <p>Subtractors calculate the difference between binary inputs using borrowing logic.</p>
+
     
-    <p>A <strong>parity checker</strong> is a combinational logic circuit deployed at the receiver end of a digital communication system. Its primary role is to inspect incoming data blocks to verify whether data corruption occurred during transmission.</p>
+    <h2>Half Subtractor</h2>
     
-     <h2> Even vs. Odd Parity</h2>
- 
-
-    <h3>1. Even Parity Checker</h3>
-    <p>This circuit verifies if the total count of 1s in the entire received block is <span class="bold-text">even</span>.</p>
+    <p>A half subtractor is used to find the difference between two 1-bit binary numbers. It does not account for a borrow generated from previous lower-order bits, so it is only used for the Least Significant Bit (LSB) position.</p>
+    
     <ul>
-        <li><strong>Valid State:</strong> Total count of 1s is even &rarr; Checker outputs <span class="bold-text">0</span> (No error detected).</li>
-        <li><strong>Corrupted State:</strong> Total count of 1s is odd &rarr; Checker outputs <span class="bold-text">1</span> (Error detected).</li>
+        <li><strong>Inputs:</strong> 2 (Minuend A and Subtrahend B)</li>
+        <li><strong>Outputs:</strong> 2 (Difference and Borrow)</li>
+        <li><strong>Gates Used:</strong> 1 NOT gate, 1 XOR gate (for Difference), and 1 AND gate (for Borrow).</li>
     </ul>
-     <h2> 4-bit even parity checker</h2>
-    <img src="4-bit-even-parity-generator-circuit-diagram.jpg" alt="">
 
-    <h3>2. Odd Parity Checker</h3>
-    <p>This circuit verifies if the total count of 1s in the entire received block is <span class="bold-text">odd</span>.</p>
+    
+    <img src="halfsub.jpg" alt="Half Subtractor Circuit Diagram" srcset="">
+    </div>
+    <h2>Full Subtractor</h2>
+    
+    <p>A full subtractor finds the difference between two 1-bit binary numbers while taking into account a borrow bit (B<sub>in</sub>) from a previous subtraction. Multiple full subtractors can be cascaded together to subtract large, multi-bit binary numbers.</p>
+    
     <ul>
-        <li><strong>Valid State:</strong> Total count of 1s is odd &rarr; Checker outputs <span class="bold-text">0</span> (No error detected).</li>
-        <li><strong>Corrupted State:</strong> Total count of 1s is even &rarr; Checker outputs <span class="bold-text">1</span> (Error detected).</li>
+        <li><strong>Inputs:</strong> 3 (Minuend A, Subtrahend B, and Borrow-in B<sub>in</sub>)</li>
+        <li><strong>Outputs:</strong> 2 (Difference and Borrow-out B<sub>out</sub>)</li>
+        <li><strong>Gates Used:</strong> 2 NOT gates, 2 XOR gates, 2 AND gates, and 1 OR gate.</li>
     </ul>
-     <h2> 4-bit odd parity checker </h2>
-    <img src="4-bit-odd-parity-generator-circuit-diagram.jpg" alt="">
+        <img src="fullsub.png" alt="Full Subtractor Circuit Diagram" srcset="">
+    </div>
 
-<table>
-    <thead>
-        <tr>
-            <th rowspan="2">Total 1s Received<br>(Data + Parity Bit)</th>
-            <th colspan="2">Error Output (PEC)</th>
-        </tr>
-        <tr>
-            <th>Even Checker</th>
-            <th>Odd Checker</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><strong>0</strong> (Even)</td>
-            <td class="valid">0 (Valid)</td>
-            <td class="error">1 (Error)</td>
-        </tr>
-        <tr>
-            <td><strong>1</strong> (Odd)</td>
-            <td class="error">1 (Error)</td>
-            <td class="valid">0 (Valid)</td>
-        </tr>
-        <tr>
-            <td><strong>2</strong> (Even)</td>
-            <td class="valid">0 (Valid)</td>
-            <td class="error">1 (Error)</td>
-        </tr>
-        <tr>
-            <td><strong>3</strong> (Odd)</td>
-            <td class="error">1 (Error)</td>
-            <td class="valid">0 (Valid)</td>
-        </tr>
-        <tr>
-            <td><strong>4</strong> (Even)</td>
-            <td class="valid">0 (Valid)</td>
-            <td class="error">1 (Error)</td>
-        </tr>
-        <tr>
-            <td><strong>5</strong> (Odd)</td>
-            <td class="error">1 (Error)</td>
-            <td class="valid">0 (Valid)</td>
-        </tr>
-    </tbody>
-</table>
-
-
-</body>
-</html>
-<hr>
-<hr>
-
-<!DOCTYPE html>
-<html lang="en">
-<body>
-
-    <h1>Multiplexers and Demultiplexers in Digital Electronics</h1>
+    <h1>Data transmission </h1>
+    <h1>Multiplexers and Demultiplexers</h1>
     <p>In digital electronics, <strong>multiplexers (MUX)</strong> and <strong>demultiplexers (DEMUX)</strong> are fundamental combinational logic circuits used to direct and route digital signals through a system. A <strong>multiplexer</strong> acts as a data selector by routing one of many inputs to a single output line, while a <strong>demultiplexer</strong> acts as a data distributor by routing a single input line to one of many outputs.</p>
 
     <hr>
@@ -1166,3 +1108,4 @@
 
 </body>
 </html>
+
