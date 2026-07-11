@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequential Logic: Flip-Flops and Registers</title>
+    <style>
+         body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            color: #0056b3;
+        }
+        ul {
+            margin-bottom: 15px;
+        }
+                 code {
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border: 1px solid #eaeded;
+            border-radius: 4px;
+            font-family: Courier, monospace;
+            font-weight: bold;
+        }
+        .bold-text {
+            font-weight: bold;
+        }
+        .highlight {
+            color: #2980b9;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <section id="multivibrators-section" style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px;">
+  
+  <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px;">Multivibrators </h2>
+
+  <h3 style="color: #2980b9;">1. Definition</h3>
+  <p>A <strong>multivibrator</strong> is a two-state electronic circuit that acts as an oscillator, timer, or memory element. It uses cross-coupled transistors or logic gates to generate non-sinusoidal waveforms like square waves.</p>
+
+  <h3 style="color: #2980b9;">2. Classification (The 3 Types)</h3>
+  <ul>
+    <li style="margin-bottom: 15px;">
+      <strong>Astable Multivibrator (Free-Running)</strong>
+      <ul>
+        <li><strong>Stable States:</strong> Zero stable states (two temporary states).</li>
+        <li><strong>Operation:</strong> Automatically switches between states without an external trigger.</li>
+        <li><strong>Output:</strong> Continuous square wave (acts as a clock oscillator).</li>
+        <li><strong>Application:</strong> LED flashers, pulse generators.</li>
+      </ul>
+    </li>
+    <li style="margin-bottom: 15px;">
+      <strong>Monostable Multivibrator (One-Shot)</strong>
+      <ul>
+        <li><strong>Stable States:</strong> Exactly one stable state.</li>
+        <li><strong>Operation:</strong> An external trigger forces it into a temporary state. It stays there for a fixed time (set by an RC circuit) and automatically resets.</li>
+        <li><strong>Output:</strong> Single pulse of a fixed duration.</li>
+        <li><strong>Application:</strong> Timers, switch debouncing.</li>
+      </ul>
+    </li>
+    <li style="margin-bottom: 15px;">
+      <strong>Bistable Multivibrator (Flip-Flop)</strong>
+      <ul>
+        <li><strong>Stable States:</strong> Two fully stable states.</li>
+        <li><strong>Operation:</strong> Remains in its current state indefinitely until an external trigger forces it to switch. It never resets automatically.</li>
+        <li><strong>Output:</strong> Constant high or low DC voltage.</li>
+        <li><strong>Application:</strong> 1-bit memory storage (RAM), computer registers.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3 style="color: #2980b9;">3. Summary Table</h3>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+    <thead>
+      <tr style="background-color: #3498db; color: white;">
+        <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Feature</th>
+        <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Astable</th>
+        <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Monostable</th>
+        <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Bistable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">Stable States</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">0</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">1</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">2</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">Trigger Needed?</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">No (Self-starting)</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">Yes (To start pulse)</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">Yes (To change state)</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">Output Waveform</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">Continuous Square Wave</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">Single Pulse</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">Steady DC Level</td>
+      </tr>
+      <tr style="background-color: #f9f9f9;">
+        <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">Core Function</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">Oscillator</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">Timer</td>
+        <td style="border: 1px solid #ddd; padding: 10px;">Memory Storage</td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
+    <h1>Sequential Logic: Flip-Flops and Registers</h1>
+     <div class="definition-card">
+      <ol> <li> <p>A <span class="highlight">flip-flop</span> is a sequential circuit which consists of a single binary state of information or data.</p></li>
+        <li> <p>The digital circuit is a flip-flop which has <span class="highlight">two outputs</span> and are of <span class="highlight">opposite states</span>. It is also known as a <span class="highlight">Bistable Multivibrator</span>.</p></li>
+        </ol>
+    </div>
+
+    <h1>The 4 Types of Flip-Flops</h1>
+
+    <h2>1. RS(SR) Flip-Flop (Set-Reset)</h2>
+    <p>The foundation of all flip-flops. It uses two inputs to control a single bit of data.</p>
+    <p><span class="bold-text">Inputs:</span> <code>S</code> (Set to 1), <code>R</code> (Reset to 0)</p>
+    <p><span class="bold-text">How it works:</span></p>
+    <ul>
+        <li><code>S = 1, R = 0</code> &rarr; Output becomes 1.</li>
+        <li><code>S = 0, R = 1</code> &rarr; Output becomes 0.</li>
+        <li><code>S = 0, R = 0</code> &rarr; Hold (remembers the last state).</li>
+        <li><code>S = 1, R = 1</code> &rarr; <span class="alert-text">Invalid/Forbidden.</span> (Both outputs try to go low at once, crashing the system).</li>
+    </ul>
+<img src="SR_flip.png" alt="">
+    <h2>2. JK Flip-Flop (The Fixer)</h2>
+    <p>An upgraded SR flip-flop. It eliminates the forbidden state by routing outputs back into the inputs.</p>
+    <p><span class="bold-text">Inputs:</span> <code>J</code> (acts like Set), <code>K</code> (acts like Reset)</p>
+    <p><span class="bold-text">How it works:</span></p>
+    <ul>
+        <li><code>J = 1, K = 0</code> &rarr; Output becomes 1.</li>
+        <li><code>J = 0, K = 1</code> &rarr; Output becomes 0.</li>
+        <li><code>J = 0, K = 0</code> &rarr; Hold (no change).</li>
+        <li><code>J = 1, K = 1</code> &rarr; Toggle. (Inverts the output: 0 becomes 1, and 1 becomes 0).</li>
+    </ul>
+    <p><span class="alert-text">The Flaw:</span> If the clock pulse stays high too long, the output will toggle uncontrollably (Race-Around Condition).</p>
+<img src="JK_flip.png" alt="">
+    <h2>3. D Flip-Flop (Data / Delay)</h2>
+    <p>The most common flip-flop used today. It adds an inverter between S and R so the inputs can never match.</p>
+    <p><span class="bold-text">Input:</span> <code>D</code> (Data)</p>
+    <p><span class="bold-text">How it works:</span></p>
+    <p>Whatever value is at D gets copied to the output on the next clock tick.</p>
+    <ul>
+        <li><code>D = 1</code> &rarr; Output becomes 1.</li>
+        <li><code>D = 0</code> &rarr; Output becomes 0.</li>
+    </ul>
+    <p><span class="bold-text">Use case:</span> Central component for computer memory (RAM) and CPU registers.</p>
+<img src="D-flip-flop.png" alt="">
+<img src="D-logic-diag-300x123.png" alt="">
+    <h2>4. T Flip-Flop (Toggle)</h2>
+    <p>Created by connecting the J and K inputs of a JK flip-flop together.</p>
+    <p><span class="bold-text">Input:</span> <code>T</code> (Toggle)</p>
+    <p><span class="bold-text">How it works:</span></p>
+    <ul>
+        <li><code>T = 0</code> &rarr; Hold (no change).</li>
+        <li><code>T = 1</code> &rarr; Toggle (flips the output from 0 to 1, or 1 to 0).</li>
+    </ul>
+    <p><span class="bold-text">Use case:</span> Digital clocks, counters, and frequency dividers (it cuts clock speed exactly in half).</p>
+    <div class="div">
+<img src="T-logic-diag-300x143.png" alt="">
+<img src="T-flip-flop-300x127.png" alt="">
+<section id="flipflop-applications" style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 750px; margin: 20px auto; padding: 25px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+  
+  <h2 style="color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; margin-top: 0;">Applications of Flip-Flops </h2>
+  
+  <ol style="padding-left: 20px; color: #333333;">
+    <li style="margin-bottom: 12px; padding-left: 5px;">
+      <strong style="color: #2980b9;">1-Bit Memory:</strong> Act as the fundamental cell to store a single binary bit (0 or 1).
+    </li>
+    <li style="margin-bottom: 12px; padding-left: 5px;">
+      <strong style="color: #2980b9;">Data Registers:</strong> Cascaded together to form registers that hold multi-bit binary data inside CPUs.
+    </li>
+    <li style="margin-bottom: 12px; padding-left: 5px;">
+      <strong style="color: #2980b9;">Shift Registers:</strong> Shift data serially or in parallel for communication and data conversion.
+    </li>
+    <li style="margin-bottom: 12px; padding-left: 5px;">
+      <strong style="color: #2980b9;">Binary Counters:</strong> Count clock pulses to track events, loops, or timing sequences in digital systems.
+    </li>
+    <li style="margin-bottom: 12px; padding-left: 5px;">
+      <strong style="color: #2980b9;">Frequency Division:</strong> Toggle mode configuration cuts the input clock frequency perfectly in half (f/2).
+    </li>
+    <li style="margin-bottom: 12px; padding-left: 5px;">
+      <strong style="color: #2980b9;">Switch Debouncing:</strong> Eliminate mechanical switch vibration noise to provide a clean, single digital pulse.
+    </li>
+    <li style="margin-bottom: 12px; padding-left: 5px;">
+      <strong style="color: #2980b9;">SRAM Storage:</strong> Used as the primary memory element inside fast Static Random Access Memory.
+    </li>
+    <li style="margin-bottom: 12px; padding-left: 5px;">
+      <strong style="color: #2980b9;">Digital Delay Lines:</strong> Provide a precise time-delay for data signals matching the clock period.
+    </li>
+    <li style="margin-bottom: 12px; padding-left: 5px;">
+      <strong style="color: #2980b9;">State Control:</strong> Store the current state of operation in Finite State Machines (FSMs).
+    </li>
+    <li style="margin-bottom: 0; padding-left: 5px;">
+      <strong style="color: #2980b9;">Waveform Synchronization:</strong> Align asynchronous external inputs with the main internal system clock.
+    </li>
+  </ol>
+
+</section>
+
+</div>
+ <h1>Counters: </h1>
+    <p>A <span class="bold-text">Counter</span> is a sequential logic circuit designed to count clock pulses. It is constructed by cascading multiple flip-flops together. The binary output states of these flip-flops change in a specific, repeating sequence.</p>
+
+    <h2>Core Difference: Asynchronous vs. Synchronous Counters</h2>
+    <p>The primary difference lies in how the clock signal is distributed to the flip-flops.</p>
+    <ul>
+        <li><span class="bold-text">Asynchronous (Ripple) Counters:</span> The external clock signal is applied <span class="highlight">only to the first flip-flop</span>. Each subsequent flip-flop is clocked by the output of the preceding flip-flop. Because the signal ripples through the chain, it creates propagation delays.</li>
+        <li><span class="bold-text">Synchronous Counters:</span> The external clock signal is applied to <span class="highlight">all flip-flops simultaneously</span>. All flip-flops change states at the exact same moment, eliminating ripple delays and allowing for much higher operational speeds.</li>
+    </ul>
+
+    <h2>Key Operational Types of Counters</h2>
+
+    <h3>1. Ripple Counter</h3>
+    <ul>
+        <li><span class="bold-text">Type:</span> Asynchronous.</li>
+        <li><span class="bold-text">How it works:</span> Flip-flops are connected in a chain where the output (<code>Q</code> or <code>Q&#772;</code>) of one stage triggers the clock input of the next stage.</li>
+        <li><span class="bold-text">Limitation:</span> It suffers from accumulation delays, which can lead to glitched, temporary false states at high clock frequencies.</li>
+    </ul>
+
+    <h3>2. Mod (Modulus) Counter</h3>
+    <ul>
+        <li><span class="bold-text">Definition:</span> "Modulus" represents the total number of unique states a counter passes through before resetting back to its initial state.</li>
+        <li><span class="bold-text">How it works:</span> An <code>n</code>-bit counter naturally counts up to 2<sup>n</sup> states (e.g., a 3-bit counter is naturally a Mod-8 counter, counting 0 to 7). To create a custom Mod counter (like a Mod-6 counter, counting 0 to 5), an external logic gate (like a NAND gate) is added to detect the target state and force an instant <code>RESET</code> to all flip-flops.</li>
+    </ul>
+<h3>3. Up / Down Counter</h3>
+    <p>An Up/Down counter is a two-way counter that can count forward or backward.</p>
+    <ul>
+        <li><span class="bold-text">Up Counting:</span> Counts upward (<code>0, 1, 2, 3...</code>) by wiring the normal outputs (<code>Q</code>) to trigger the next steps.</li>
+        <li><span class="bold-text">Down Counting:</span> Counts backward (<code>3, 2, 1, 0...</code>) by wiring the upside-down, inverted outputs (<code>Q&#772;</code>) to trigger the next steps.</li>
+        <li><span class="bold-text">The Switch:</span> It has a directional control wire. Sending a high voltage (<code>1</code>) makes it count up, and a low voltage (<code>0</code>) instantly forces it to count down.</li>
+    </ul>
+
+    <h3>4. Ring Counter</h3>
+    <p>A ring counter is a loop of flip-flops that passes a single starting bit around in a circle.</p>
+    <ul>
+        <li><span class="bold-text">How it works:</span> The output of the last flip-flop connects directly back to the input of the first one.</li>
+        <li><span class="bold-text">The Pattern:</span> You start by loading a single <code>1</code> into the first slot. Every time the clock ticks, that <code>1</code> takes one step to the right, looping back to the start when it reaches the end.</li>
+        <li><span class="bold-text">Example Sequence:</span> <span class="highlight">1000</span> &rarr; <span class="highlight">0100</span> &rarr; <span class="highlight">0010</span> &rarr; <span class="highlight">0001</span> &rarr; loops back to <span class="highlight">1000</span>.</li>
+    </ul>
+    <section id="johnson-counter-snippet" style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 750px; margin: 20px auto; padding: 25px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+  
+  <h2 style="color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; margin-top: 0;">Johnson Counter (Twisted Ring / Switch-Tail Counter)</h2>
+  
+  <ul style="padding-left: 20px; margin: 0; color: #333333;">
+    <li style="margin-bottom: 10px;">
+      <strong style="color: #2980b9;">Configuration:</strong> The inverted output (Q̄) of the last flip-flop connects back to the input (D) of the first flip-flop.
+    </li>
+    <li style="margin-bottom: 10px;">
+      <strong style="color: #2980b9;">Operation:</strong> Opposing bit values are fed back into the loop, creating a sequence where blocks of 1s followed by blocks of 0s shift through the stages.
+    </li>
+    <li style="margin-bottom: 10px;">
+      <strong style="color: #2980b9;">States:</strong> An n-stage Johnson counter doubles its efficiency, providing 2n unique states.
+    </li>
+    <li style="margin-bottom: 0;">
+      <strong style="color: #2980b9;">Advantage:</strong> Does not require initial pre-loading of a bit pattern; it can naturally start from all zeros.
+    </li>
+  </ul>
+
+</section>
+
+    <section id="binary-ripple-counter" style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 750px; margin: 20px auto; padding: 25px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+  
+  <h2 style="color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; margin-top: 0;">Binary Ripple Counter </h2>
+
+  <h3 style="color: #2980b9; margin-top: 20px; margin-bottom: 8px;">1. Definition</h3>
+  <p style="margin: 0 0 15px 0; color: #333333;">A <strong>binary ripple counter</strong> (asynchronous counter) is a digital circuit where only the first flip-flop is clocked by an external signal. Each subsequent flip-flop is triggered by the output of the preceding one, causing the clock to "ripple" through the stage array.</p>
+
+  <h3 style="color: #2980b9; margin-top: 20px; margin-bottom: 8px;">2. Core Characteristics</h3>
+  <ul style="padding-left: 20px; margin: 0 0 15px 0; color: #333333;">
+    <li style="margin-bottom: 8px;"><strong>Asynchronous:</strong> Flip-flops do not share a common clock.</li>
+    <li style="margin-bottom: 8px;"><strong>Toggle Configuration:</strong> Built using JK or T flip-flops fixed in toggle mode (J=K=1 or T=1).</li>
+    <li style="margin-bottom: 0;"><strong>Modulus (2<sup>n</sup>):</strong> An n-flip-flop counter cycles through 2<sup>n</sup> unique states (from 0 to 2<sup>n</sup> - 1).</li>
+  </ul>
+
+  <h3 style="color: #2980b9; margin-top: 20px; margin-bottom: 8px;">3. 3-Bit Counting Sequence</h3>
+  <ul style="padding-left: 20px; margin: 0 0 15px 0; color: #333333; list-style-type: square;">
+    <li style="margin-bottom: 6px;"><strong>State 0 (Initial):</strong> Q₂=0, Q₁=0, Q₀=0 (Decimal 0)</li>
+    <li style="margin-bottom: 6px;"><strong>State 1:</strong> Q₂=0, Q₁=0, Q₀=1 (Decimal 1)</li>
+    <li style="margin-bottom: 6px;"><strong>State 2:</strong> Q₂=0, Q₁=1, Q₀=0 (Decimal 2)</li>
+    <li style="margin-bottom: 6px;"><strong>State 3:</strong> Q₂=0, Q₁=1, Q₀=1 (Decimal 3)</li>
+    <li style="margin-bottom: 6px;"><strong>State 4:</strong> Q₂=1, Q₁=0, Q₀=0 (Decimal 4)</li>
+    <li style="margin-bottom: 6px;"><strong>State 5:</strong> Q₂=1, Q₁=0, Q₀=1 (Decimal 5)</li>
+    <li style="margin-bottom: 6px;"><strong>State 6:</strong> Q₂=1, Q₁=1, Q₀=0 (Decimal 6)</li>
+    <li style="margin-bottom: 6px;"><strong>State 7:</strong> Q₂=1, Q₁=1, Q₀=1 (Decimal 7)</li>
+    <li style="margin-bottom: 0;"><strong>Reset:</strong> Automatically resets back to 000 on the 8th clock pulse.</li>
+  </ul>
+
+  <h3 style="color: #2980b9; margin-top: 20px; margin-bottom: 8px;">4. Pros & Cons</h3>
+  <ul style="padding-left: 20px; margin: 0; color: #333333;">
+    <li style="margin-bottom: 8px;"><strong>Advantage:</strong> Simple hardware design with minimal logic gates.</li>
+    <li style="margin-bottom: 0;"><strong>Disadvantage:</strong> Slow speed due to accumulated propagation delay across the cascading stages.</li>
+  </ul>
+
+</section>
+
+    
+ <h1>Shift Registers:</h1>
+    <p>A <span class="bold-text">Register</span> is a group of flip-flops working together to store multiple bits of digital data. A <span class="bold-text">Shift Register</span> is a specialized register that moves (shifts) those stored bits laterally from one flip-flop to the next on every clock pulse.</p>
+
+    <h2>Core Purpose of Shift Registers</h2>
+    <ul>
+        <li><span class="bold-text">Data Storage:</span> Temporarily holds binary words inside CPUs and controllers.</li>
+        <li><span class="bold-text">Data Conversion:</span> Translates data formatting between <span class="highlight">Serial</span> (one wire, bit-by-bit) and <span class="highlight">Parallel</span> (multiple wires, all at once).</li>
+        <li><span class="bold-text">Time Delay:</span> Delays a digital signal pipeline by a specific number of clock cycles.</li>
+    </ul>
+
+    <h2>The 4 Primary Types of Shift Registers</h2>
+
+    <h3>1. SISO (Serial-In, Serial-Out)</h3>
+    <ul>
+        <li><span class="bold-text">Data Entry:</span> One bit at a time, sequentially through a single input wire.</li>
+        <li><span class="bold-text">Data Exit:</span> One bit at a time, sequentially through a single output wire.</li>
+        <li><span class="bold-text">How it works:</span> It acts like a pipeline. A 4-bit SISO register requires 4 clock pulses to load data entirely, and 4 more pulses to shift it out completely.</li>
+        <li><span class="bold-text">Primary Use:</span> Digital time-delay lines and basic data buffers.</li>
+    </ul>
+
+    <h3>2. SIPO (Serial-In, Parallel-Out)</h3>
+    <ul>
+        <li><span class="bold-text">Data Entry:</span> One bit at a time, sequentially through a single input wire.</li>
+        <li><span class="bold-text">Data Exit:</span> All stored bits are read simultaneously from separate parallel output pins.</li>
+        <li><span class="bold-text">How it works:</span> Data creeps in bit-by-bit until the register is full. Once filled, the circuit reads all positions at the exact same moment.</li>
+        <li><span class="bold-text">Primary Use:</span> Converting single-line serial communications (like USB or SPI protocols) into parallel system data for processor buses.</li>
+    </ul>
+
+    <h3>3. PISO (Parallel-In, Serial-Out)</h3>
+    <ul>
+        <li><span class="bold-text">Data Entry:</span> All bits are loaded into the register simultaneously using multiple pins.</li>
+        <li><span class="bold-text">Data Exit:</span> Data is shifted out sequentially, one bit per clock cycle, through a single wire.</li>
+        <li><span class="bold-text">How it works:</span> A control pin switches the register into <code>Load</code> mode to grab a full data byte instantly, then switches to <code>Shift</code> mode to stream it down a single line.</li>
+        <li><span class="bold-text">Primary Use:</span> Converting internal computer parallel data into serial streams for long-distance transmission over minimal wiring.</li>
+    </ul>
+
+    <h3>4. PIPO (Parallel-In, Parallel-Out)</h3>
+    <ul>
+        <li><span class="bold-text">Data Entry:</span> All bits are loaded simultaneously through parallel input wires.</li>
+        <li><span class="bold-text">Data Exit:</span> All bits are read simultaneously from parallel output wires.</li>
+        <li><span class="bold-text">How it works:</span> It does not actively shift data between internal flip-flops during normal operation. It instantly captures an entire multi-bit word on a clock edge and holds it steady.</li>
+        <li><span class="bold-text">Primary Use:</span> Temporary storage registers inside CPU arithmetic logic units (ALUs).</li>
+    </ul></body>
+</html>
